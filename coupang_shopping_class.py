@@ -93,7 +93,3 @@ class coupang_search():
 
                 return link_list, imageLink_list, title_list, price_list, point_list
                 
-product=coupang_search("노트북", 1)
-
-product.request()
-link_list, imageLink_list, title_list, price_list, point_list = product.find_html()

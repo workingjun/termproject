@@ -1,3 +1,7 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import chromedriver_autoinstaller
+import subprocess
 from selenium.webdriver.common.by import By
 
 class SearchManager:

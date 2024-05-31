@@ -67,11 +67,3 @@ class blog_search():
             time.sleep(3)
             i += 1
 
-chromedriver_autoinstaller.install()
-driver = webdriver.Chrome()
-
-blog=blog_search("대학생 노트북 추천", 50, driver)
-
-
-blog.saerch_and_scroll()
-username_list, title_list, content_list = blog.request_find_html()
