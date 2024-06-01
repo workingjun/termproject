@@ -1,32 +1,25 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup   
-import chromedriver_autoinstaller
-import time
 import math
 
-class blog_search():
-    def __init__(self, query_txt, cnt, driver):
-        self.query_txt = query_txt
-        self.cnt = cnt
-        self.page_cnt = math.ceil(cnt / 30)
+class Searching_blog():
+    def __init__(self, driver, content=50):
         self.driver = driver
-
-    def saerch_and_scroll(self):
-        self.driver.get('http://www.naver.com')
-        time.sleep(2)
+        self.content = content
+               
+    def Saerch_and_Scroll(self, query):
+        self.driver.get('http://www.naver.com')  
 
         element = self.driver.find_element(By.ID, 'query')
-        element.send_keys(self.query_txt)
+        element.send_keys(query)
         element.send_keys("\n")
 
         self.driver.find_element(By.LINK_TEXT,'블로그').click( )
 
         self.scroll_down()
 
-    def request_find_html(self):
-        username_list, title_list, content_list = [], [], []
+    def find_html(self):
+        username_list, blog_title_list, content_list = [], [], []
         no = 1
 
         html = self.driver.page_source
@@ -46,24 +39,23 @@ class blog_search():
 
                 #게시글 제목
                 title= i.find('div','title_area').find('a').get_text()
-                title_list.append(title)
+                blog_title_list.append(title)
 
                 #게시글 내용
                 content = i.find('div','dsc_area').get_text()         
                 content_list.append(content)
                 
                 no += 1
-                if no > self.cnt :
+                if no > self.content :
                     break
 
-            time.sleep(0.5)   
-
-        return username_list, title_list, content_list
+        return username_list, blog_title_list, content_list
 
     def scroll_down(self):
+        page_cnt = math.ceil(self.content / 30)
+        
         i = 1
-        while i <= self.page_cnt:
+        while i <= page_cnt:
             self.driver.execute_script("window.scrollTo(0,document.body.scrollHeight);")
-            time.sleep(3)
             i += 1
 
